@@ -108,9 +108,6 @@ class EMailAutoComplete extends AutoComplete
     regex = new RegExp("^(#{email}|#{name}\\s+<(#{email})>)$")
     ret = regex.exec(str)
     if (ret)
-      console.log(regex)
-      console.log(str)
-      console.log(ret)
       {
         name: ret[2]
         email: ret[3] or ret[0]

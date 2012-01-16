@@ -1,13 +1,6 @@
 <html>
 <head>
 
-    <!--<script type="text/javascript" src="https://www.google.com/jsapi">-->
-    <!--</script>-->
-
-    <!--<script>-->
-        <!--google.load("gdata", "2.x");-->
-    <!--</script>-->
-
     <script src="/js/vendor/underscore.js"></script>
     <script src="/js/vendor/jquery-1.7.1.min.js"></script>
     <script src="/js/vendor/jquery-ui-1.8.16.custom.min.js"></script>
@@ -51,18 +44,13 @@
             ac.editor.focus()
         });
 
-        function logout() {
-            localStorage.clear();
-            location.reload();
-        }
-
     </script>
 
     <style>
 
         #recipients {
             border:  1px solid #ccc;
-            width: 600px;
+            width: 400px;
             padding: 0;
             margin:  0;
             position: relative;
@@ -70,15 +58,15 @@
 
         .editor {
             box-sizing: border-box;
-            margin: 10px;
-            padding:  20px;
+            margin: 5px;
+            padding:  3px;
         }
 
         .item {
             /*box-sizing: border-box;*/
             border: 1px solid #aaa;
-            margin: 10px;
-            padding:  10px;
+            margin: 5px;
+            padding: 3px;
             display: inline-block;
         }
 
@@ -90,17 +78,18 @@
             margin-left: 5px;
         }
 
+        body {
+            width: 500px;
+            height: 300px;
+        }
+
     </style>
 </head>
 <body>
 
-
 <div id="recipients">
     <input type="text" value="test" class="editor">
 </div>
-
-<button onclick="logout()">Logout</button>
-
 
 </body>
 </html>
