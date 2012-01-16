@@ -1,0 +1,108 @@
+<html>
+<head>
+
+    <!--<script type="text/javascript" src="https://www.google.com/jsapi">-->
+    <!--</script>-->
+
+    <!--<script>-->
+        <!--google.load("gdata", "2.x");-->
+    <!--</script>-->
+
+    <script src="/js/vendor/underscore.js"></script>
+    <script src="/js/vendor/jquery-1.7.1.min.js"></script>
+    <script src="/js/vendor/jquery-ui-1.8.16.custom.min.js"></script>
+    <script src="/js/vendor/backbone.js"></script>
+
+    <script src="/js/jquery-extensions.js"></script>
+    <script src="/js/send.js"></script>
+
+    <title>ChromeSender</title>
+    
+    <link rel="stylesheet" href="/css/send.css" type="text/css">
+    <link rel="stylesheet" href="/css/vendor/jquery-ui-1.8.16.custom.css" type="text/css">
+
+    <script>
+
+        availableItems = [
+            "\"Cormac Driver\" <cormac.driver@gmail.com>",
+            "\"Michael Donohoe\" <donohoe@gmail.com>",
+            "\"Kathryn Smart\" <kathryn.smart@gmail.com>",
+            "\"John Smart\" <john.smart@gmail.com>",
+            "\"Niall Smart\" <niall@pobox.com>",
+            "\"Niall Smart\" <niall.smart@gmail.com>",
+            "\"Michael Cohen\" <michaelcohen@realnetworks.edu>",
+            "\"Jeff Chasen\" <jchasen@realnetworks.edu>",
+            "\"John Schussler\" <jschulssler@realnetworks.edu>",
+            "\"Judy Bitterli\" <jbitterli@realnetworks.edu>",
+            "\"Richard Wolpert\" <rolpwert@realnetworks.edu>"
+        ];
+
+        availableItems.sort();
+
+        source = function(req, resp) {
+            resp(availableItems);
+        };
+
+        $(function() {
+            window.ac = new EMailAutoComplete({
+                el: "#recipients",
+                source: availableItems
+            });
+            ac.editor.focus()
+        });
+
+        function logout() {
+            localStorage.clear();
+            location.reload();
+        }
+
+    </script>
+
+    <style>
+
+        #recipients {
+            border:  1px solid #ccc;
+            width: 600px;
+            padding: 0;
+            margin:  0;
+            position: relative;
+        }
+
+        .editor {
+            box-sizing: border-box;
+            margin: 10px;
+            padding:  20px;
+        }
+
+        .item {
+            /*box-sizing: border-box;*/
+            border: 1px solid #aaa;
+            margin: 10px;
+            padding:  10px;
+            display: inline-block;
+        }
+
+        .item:focus {
+            border: 1px solid red;
+        }
+
+        .item .remove {
+            margin-left: 5px;
+        }
+
+    </style>
+</head>
+<body>
+
+
+<div id="recipients">
+    <input type="text" value="test" class="editor">
+</div>
+
+<button onclick="logout()">Logout</button>
+
+
+</body>
+</html>
+
+

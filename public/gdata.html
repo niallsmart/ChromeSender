@@ -1,0 +1,77 @@
+<script type="text/javascript" src="http://www.google.com/jsapi"></script>
+
+<script>
+    google.load("gdata", "3.x");
+</script>
+
+
+<script>
+
+    /*
+     * Query for contacts
+     */
+
+    // Create the contacts service object
+    var contactsService =
+            new google.gdata.contacts.ContactsService('GoogleInc-jsguide-1.0');
+
+    // The feed URI that is used for retrieving contacts
+    var feedUri = 'https://www.google.com/m8/feeds/contacts/default/full';
+    var query = new google.gdata.contacts.ContactQuery(feedUri);
+
+    // Set up the query to retrieve all contacts that has been modifed since today
+    var today = new Date();
+    var updatedMin = new google.gdata.DateTime(today, true);
+    query.setParam("q", 'corm');
+    query.setParam("v", "3.0")
+    query.setParam("strict", "true");
+    // Sort result set with descending order
+    query.setSortOrder('descending');
+
+    // callback method to be invoked when getContactFeed() returns data
+    var callback = function(result) {
+
+        // An array of contact entries
+        var entries = result.feed.entry;
+
+        // Iterate through the array of contact entries
+        for (var i = 0; i < entries.length; i++) {
+            var contactEntry = entries[i];
+
+            PRINT('name = ' + contactEntry.getTitle().getText());
+
+            var emailAddresses = contactEntry.getEmailAddresses();
+
+            for (var j = 0; j < emailAddresses.length; j++) {
+                var emailAddress = emailAddresses[j].getAddress();
+                PRINT('email = ' + emailAddress);
+            }
+
+            var phoneNumbers = contactEntry.getPhoneNumbers();
+
+            if (phoneNumbers.length == 0) {
+                PRINT('phone number = N/A');
+            } else {
+                for (var j = 0; j < phoneNumbers.length; j++) {
+                    var phoneNumber = phoneNumbers[j].getValue() || 'N/A';
+                    PRINT('phone number = ' + phoneNumber);
+                }
+            }
+        }
+
+        // If there is no contacts that were modifed since the start of today
+        if (entries.length == 0) {
+            PRINT('no contacts are found that were modifed today.');
+        }
+    }
+
+    // Error handler
+    var handleError = function(error) {
+        PRINT(error);
+    }
+
+    // Submit the request using the contacts service object
+    contactsService.getContactFeed(query, callback, handleError);
+
+
+</script>

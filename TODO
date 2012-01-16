@@ -1,0 +1,8 @@
+## Todo
+
+ * Allow paste of email addresses separated by "," or ";"
+ * Optimize autocompletion to optimize most frequent recipients.
+
+## Done
+
+  * Fix bug where niall@pobox.com; blah@foo.com is considered one email.

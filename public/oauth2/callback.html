@@ -1,0 +1,29 @@
+<html>
+<head>
+    <script>
+
+        function parseAccessToken() {
+
+            var params = {},
+                queryString = location.hash.substring(1),
+                regex = /([^&=]+)=([^&]*)/g,
+                m;
+
+            while (m = regex.exec(queryString)) {
+                localStorage.setItem("oauth2_" + decodeURIComponent(m[1]), decodeURIComponent(m[2]));
+            }
+
+            if (localStorage.oauth2_error) {
+                location.href = "/oauth2/error.html"
+            } else {
+                location.href = "/index.html"
+            }
+
+        }
+
+    </script>
+</head>
+<body onload="parseAccessToken()">
+
+</body>
+</html>

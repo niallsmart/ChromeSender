@@ -1,0 +1,13 @@
+{
+    "name":         "Chrome Sender",
+    "version":      "0.1",
+    "description":  "The easiest way to send a link",
+    "icons":    {
+        "128":      "icon_128.png"
+    },
+    "browser_action":{
+        "default_title":    "",
+        "default_icon":     "icon_19.png",
+        "default_popup":    "popup.html"
+    }
+}
