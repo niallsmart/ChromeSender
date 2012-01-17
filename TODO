@@ -2,6 +2,10 @@
 
  * Allow paste of email addresses separated by "," or ";"
  * Optimize autocompletion to optimize most frequent recipients.
+ * Complete email only names from address-book
+ * Hover to display recipient email.
+ * Bolden matching substring
+ * Change focus ring treatment
 
 ## Done
 

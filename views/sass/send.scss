@@ -1,5 +1,13 @@
 body {
     background: white;
+    overflow: display;
+    /*width: 393px;*/
+    /*height: 300px;*/
+}
+
+body, table, div, p, input, textarea, a {
+  font-family: HelveticaNeue, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 12px;
 }
 
 @-webkit-keyframes flash-red {
@@ -8,7 +16,102 @@ body {
   100% { background: rgba(255, 0, 0, 0.0); }
 }
 
-
 .flash {
   -webkit-animation: flash-red 300ms;
 }
+
+.item {
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    background: #eee;
+    border-radius: 5px;
+    color: #494949;
+    margin: 2px;
+    padding: 3px;
+    display: inline-block;
+    position: relative;
+    padding-left: 5px;
+    padding-right: 17px;
+    margin-left: 0;
+    margin-right: 5px;
+
+    .remove, .remove:visited {
+        color: inherit;
+        margin-left: 5px;
+        text-decoration: none;
+        font-weight: bold;
+        font-size: 15px;
+        position: absolute;
+        right: 4px;
+        top: -1px;
+        text-align: middle;
+    }
+
+    .remove:hover {
+        color: black;
+    }
+}
+
+.form {
+  th {
+    font-weight: bold;
+    text-align: right;
+    padding-right: 5px;
+    width: 60px;
+    vertical-align: top;
+    padding-top: 7px;
+  }
+
+  tr.buttons td {
+    padding-top: 10px;
+    padding-right: 10px;
+    text-align: right;
+    font-size: 16px;
+  }
+}
+
+.wrapper {
+    padding: 0;
+    margin:  0;
+    position: relative;
+    width: 380px;
+    /*background: blue;*/
+}
+
+input[type=text], textarea {
+    box-sizing: border-box;
+    padding: 4px;
+    border-radius: 2px;
+    border: 1px solid #CCC;
+    /*height: 20px;*/
+    /*line-height: 20px;*/
+    //border: 20px solid blue;
+    width: 100%;
+}
+
+input[type=text]:focus, textarea:focus, .item:focus {
+    outline: none;
+    border: 1px solid #56B4EF;
+    -webkit-box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.05), 0 0 3px rgba(82,168,236,.6);
+}
+
+textarea[name=message] {
+  margin-top: 2px;
+  height: 100px;
+}
+
+
+.ui-autocomplete.ui-corner-all {
+    border-radius: 5px;
+    border: 1px solid #CCC;
+    padding: 3px;
+}
+
+.ui-autocomplete .ui-menu-item {
+
+    .ui-active.ui-corner-all {
+      background: #eee;
+      border-radius: 5px;
+    }
+}
+

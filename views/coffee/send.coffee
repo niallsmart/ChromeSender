@@ -7,7 +7,7 @@ class AutoComplete extends Backbone.View
 
   initialize: (options) =>
     options ||= {}
-    @minEditorWidth = options.minEditorWidth || 200
+    @minEditorWidth = options.minEditorWidth || 100
     @$el = $(@el)
     @editor = $(".editor")
     @fixEditorWidth()
@@ -18,6 +18,7 @@ class AutoComplete extends Backbone.View
       source: options.source
       autoFocus: true
       delay: 0
+      minLength: 0
       position:
         of: @editor
         at: "left bottom"
@@ -57,8 +58,10 @@ class AutoComplete extends Backbone.View
     if !lastItem.size() || width < @minEditorWidth
       width = @$el.innerWidth()
 
-    #@editor.width(width - (@editor.outerWidth() - @editor.innerWidth())
-    @editor.width(width - (@editor.outerWidth(true) - @editor.innerWidth()))
+    adjust = (@editor.outerWidth(true) - @editor.innerWidth()) \
+                - parseInt(@editor.css("border-left-width"), 10) \
+                - parseInt(@editor.css("border-right-width"), 10)
+    @editor.width(width - adjust)
 
   itemKeydown: (ev) =>
     if ev.keyCode == keyCodeDelete
