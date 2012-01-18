@@ -5,7 +5,8 @@
  * Complete email only names from address-book
  * Hover to display recipient email.
  * Bolden matching substring
- * Change focus ring treatment
+ * Change focus ring color selection
+ * Test behaviour on first extension load (does content.js get loaded?)
 
 ## Done
 

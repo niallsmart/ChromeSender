@@ -45,13 +45,28 @@
                 el: "#recipients",
                 source: availableItems
             });
-            ac.editor.focus()
+
+            ac.editor.focus();
+
         });
+
+        function bodyOnLoad() {
+            console.log("onload");
+
+            var activeTabId = parseInt(localStorage.activeTabId, 10);
+
+            $("#recipients input").val(activeTabId);
+
+            chrome.tabs.sendRequest(activeTabId, {method: "getSelectionText"}, function(response) {
+                $("#subject input").val('response');
+                $("textarea").val(response.selection);
+            });
+        }
 
     </script>
 
 </head>
-<body>
+<body onload="bodyOnLoad()">
 
 <table class="form">
     <tr>

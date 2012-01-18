@@ -98,6 +98,7 @@ input[type=text]:focus, textarea:focus, .item:focus {
 textarea[name=message] {
   margin-top: 2px;
   height: 100px;
+  resize: vertical;
 }
 
 

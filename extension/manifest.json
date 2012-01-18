@@ -5,6 +5,12 @@
     "icons":    {
         "128":      "icon_128.png"
     },
+    "permissions":  [ "tabs" ],
+    "background_page":   "background.html",
+    "content_scripts": [{
+          "matches":    [ "http://*/*", "https://*/*" ],
+          "js":         [ "content.js" ]
+    }],
     "browser_action":{
         "default_title":    "",
         "default_icon":     "icon_19.png",
