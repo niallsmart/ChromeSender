@@ -8,6 +8,14 @@ window.debug = {
 };
 
 chrome.tabs.onActiveChanged.addListener(function(tabId, selectInfo) {
-	debug.log("tabs.onActiveChanged: id", tabId);
+	debug.log("tabs.onActiveChanged: ", tabId);
 	localStorage.activeTabId = tabId;
+});
+
+
+chrome.windows.onFocusChanged.addListener(function(windowId) {
+	debug.log("window.onFocusChanged: ", windowId);
+	chrome.tabs.getSelected(windowId, function(tab) {
+		localStorage.activeTabId = tab.id;
+	})
 });

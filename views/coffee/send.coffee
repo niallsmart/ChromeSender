@@ -7,7 +7,7 @@ class AutoComplete extends Backbone.View
 
   initialize: (options) =>
     options ||= {}
-    @minEditorWidth = options.minEditorWidth || 100
+    @minEditorWidth = options.minEditorWidth || 250
     @$el = $(@el)
     @editor = $(".editor")
     @fixEditorWidth()
@@ -22,9 +22,9 @@ class AutoComplete extends Backbone.View
       position:
         of: @editor
         at: "left bottom"
-        offset: "3 3"
+        offset: "0 3"
       open: () =>
-        @editor.autocomplete("widget") #.width(200) #.css("margin-top", "-0px")
+        @editor.autocomplete("widget").width(@editor.width() + @editor.borderWidth())
       focus: () =>
         false
       select: (event, ui) =>
@@ -58,9 +58,7 @@ class AutoComplete extends Backbone.View
     if !lastItem.size() || width < @minEditorWidth
       width = @$el.innerWidth()
 
-    adjust = (@editor.outerWidth(true) - @editor.innerWidth()) \
-                - parseInt(@editor.css("border-left-width"), 10) \
-                - parseInt(@editor.css("border-right-width"), 10)
+    adjust = @editor.outerWidth(true) - @editor.innerWidth() - @editor.borderWidth()
     @editor.width(width - adjust)
 
   itemKeydown: (ev) =>

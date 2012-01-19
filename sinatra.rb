@@ -10,7 +10,7 @@ require 'sass'
 #end
 
 get '/' do
-  redirect '/index.html'
+  redirect '/popup.html'
 end
 
 get '/css/vendor/:file.js' do |file|

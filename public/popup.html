@@ -1,6 +1,8 @@
 <html>
 <head>
 
+    <title>ChromeSender</title>
+
     <script src="/js/vendor/underscore.js"></script>
     <script src="/js/vendor/jquery-1.7.1.min.js"></script>
     <script src="/js/vendor/jquery-ui-1.8.16.custom.min.js"></script>
@@ -9,8 +11,6 @@
     <script src="/js/jquery-extensions.js"></script>
     <script src="/js/send.js"></script>
 
-    <title>ChromeSender</title>
-    
     <link rel="stylesheet" href="/css/send.css" type="text/css">
     <link rel="stylesheet" href="/css/vendor/jquery-ui-1.8.16.custom.css" type="text/css">
 
@@ -24,6 +24,7 @@
             "\"Niall Smart\" <niall@pobox.com>",
             "\"Niall Smart\" <niall.smart@gmail.com>",
             "\"Michael Cohen\" <michaelcohen@realnetworks.edu>",
+            "\"Michaelkjasldkj asldkj aslkdj alkjasdj asdjklasdj lasdj slkdj alksjd alksdj laksjd Cohen\" <michaelcohen@realnetworks.edu>",
             "\"Jeff Chasen\" <jchasen@realnetworks.edu>",
             "\"John Schussler\" <jschulssler@realnetworks.edu>",
             "\"Judy Bitterli\" <jbitterli@realnetworks.edu>",
@@ -43,30 +44,49 @@
         $(function() {
             window.ac = new EMailAutoComplete({
                 el: "#recipients",
-                source: availableItems
+                source: availableItems,
+                minEditorWidth: 1024
             });
 
             ac.editor.focus();
 
+            prepareDefaultMessage();
         });
 
-        function bodyOnLoad() {
-            console.log("onload");
+        function prepareDefaultMessage() {
 
-            var activeTabId = parseInt(localStorage.activeTabId, 10);
+            var activeTabId;
 
-            $("#recipients input").val(activeTabId);
+            if (!window.chrome || !window.chrome.tabs) {
+                setSelectionInfo({
+                    title: "fake title",
+                    href: "http://fake.com",
+                    selection: "Dog bites man!"
+                });
+                return;
+            }
 
-            chrome.tabs.sendRequest(activeTabId, {method: "getSelectionText"}, function(response) {
-                $("#subject input").val('response');
-                $("textarea").val(response.selection);
-            });
+            activeTabId = parseInt(localStorage.activeTabId, 0);
+
+            chrome.tabs.sendRequest(activeTabId, {method: "getSelectionInfo"}, setSelectionInfo);
+        }
+
+        function setSelectionInfo(response) {
+
+            var message = "\n\n" + response.href;
+
+            if (response.selection) {
+                message += "\n\n" + response.selection
+            }
+
+            $("#subject input").val(response.title);
+            $("#message textarea").val(message);
         }
 
     </script>
 
 </head>
-<body onload="bodyOnLoad()">
+<body onload="">
 
 <table class="form">
     <tr>

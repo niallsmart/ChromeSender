@@ -4,20 +4,14 @@ def sass2css(from, to)
   system "sass #{from} #{to}"
 end
 
-
-def filter_src(from, to)
-
+def cp_filter(from, to)
   File.open(to, "w") do |out|
-
     File.open(from) do |file|
       file.each { |line|
-        #line = line.gsub(/( (href|src)=\")\//, '\1chrome-extension://__MSG_@@extension_id__/')
-        out << line
+        out << yield(line)
       }
     end
-
   end
-
 end
 
 namespace :extension do
@@ -25,7 +19,7 @@ namespace :extension do
   task :clean do
     FileUtils.rm_rf('extension/js')
     FileUtils.rm_rf('extension/css')
-    FileUtils.rm_rf('extension/*.html')
+    FileUtils.rm_f('extension/popup.html')
   end
 
   task :sass do
@@ -50,11 +44,12 @@ namespace :extension do
   task :content do
     FileUtils.cp_r "public/js", "extension"
     FileUtils.cp_r "public/css", "extension"
-    FileUtils.cp "public/index.html", "extension/popup.html"
-    #filter_src "public/index.html", "extension/popup.html"
+    FileUtils.cp "public/popup.html", "extension/popup.html"
   end
 
-  task :package => [:dirs, :sass, :source, :content]
+  task :package => [:dirs, :sass, :source, :content] do
+    puts "extension packaged OK."
+  end
 
 end
 
