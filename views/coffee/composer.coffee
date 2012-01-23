@@ -24,7 +24,7 @@ availableItems.sort();
 class Message extends Backbone.Model
 
   initialize: () ->
-    @urlRoot = "/api/v1/messages"
+    @urlRoot = "http://localhost:4567/api/v1/messages"
 
   send: () ->
     @save()

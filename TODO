@@ -12,6 +12,7 @@
  * Make subject line "click to edit" to save extra tab over
  * Add keyboard shortcut in content windows!
  * Change badge icon to exclamation mark if delivery fails.
+ * Port "send" shortcut to Win32 keyboard mapping.
 
 ## Done
 
