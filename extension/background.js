@@ -7,6 +7,11 @@ window.debug = {
 	}
 };
 
+/*
+ * TODO: Tidy this up into a setActiveTabID when
+ *       the logic is known to be stable.
+ */
+
 function bodyOnLoad() {
 	chrome.windows.getCurrent(function(window) {
 		debug.log("bodyOnLoad.windows.getCurrent", window);
@@ -22,19 +27,12 @@ chrome.tabs.onActiveChanged.addListener(function(tabId, selectInfo) {
 	localStorage.activeTabId = tabId;
 });
 
-chrome.tabs.onCreated.addListener(function(windowId) {
-	debug.log("tabs.onCreated: ", windowId);
-});
-
-chrome.windows.onCreated.addListener(function(windowId) {
-	debug.log("window.onCreated: ", windowId);
-});
-
 chrome.windows.onFocusChanged.addListener(function(windowId) {
 	debug.log("window.onFocusChanged: ", windowId);
 
 	if (windowId > 0) {
 		chrome.tabs.getSelected(windowId, function(tab) {
+			debug.log("tabs.getSelected: ", windowId);
 			localStorage.activeTabId = tab.id;
 		})
 	}
