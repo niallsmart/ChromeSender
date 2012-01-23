@@ -1,4 +1,5 @@
-.sass-cache
 extension/css
 extension/js
+extension/popup.html
+.sass-cache
 .bundle

@@ -35,7 +35,7 @@
         </th>
         <td>
             <div class="recipients wrapper">
-                <input type="text" name="receipient" class="editor" placeholder='name or email'>
+                <input tabindex="10" type="text" name="receipient" class="editor" placeholder='name or email'>
             </div>
         </td>
     </tr>
@@ -45,7 +45,7 @@
         </th>
         <td>
             <div class="subject wrapper">
-                <input type="text" name="subject" placeholder='subject' autocomplete="off">
+                <input tabindex="20" type="text" name="subject" placeholder='subject' autocomplete="off">
             </div>
         </td>
     </tr>
@@ -55,14 +55,14 @@
         </th>
         <td>
             <div class="message wrapper">
-                <textarea name="message" columns="10" placeholder="your message"></textarea>
+                <textarea tabindex="30" name="message" columns="10" placeholder="your message"></textarea>
             </div>
         </td>
     </tr>
     <tr class="buttons">
         <td colspan="2">
-            <button class="cancel">Cancel</button>
-            <button class="send">Send</button>
+            <button tabindex="50" class="cancel">Cancel</button>
+            <button tabindex="40" class="send">Send</button>
         </td>
     </tr>
 </table>

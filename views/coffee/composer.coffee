@@ -1,4 +1,6 @@
 
+keyCodeEnter = 13
+
 availableItems = [
     "\"Cormac Driver\" <cormac.driver@gmail.com>",
     "\"Michael Donohoe\" <donohoe@gmail.com>",
@@ -24,11 +26,14 @@ class Message extends Backbone.Model
   initialize: () ->
     @urlRoot = "/api/v1/messages"
 
+  send: () ->
+    @save()
+
 
 class window.Composer extends Backbone.View
 
   events:
-    "click .cancel":  "sendMessage"
+    "click .cancel":  "cancelMessage"
     "click .send":    "sendMessage"
 
   initialize: (options) ->
@@ -44,6 +49,13 @@ class window.Composer extends Backbone.View
     @recipients.editor.focus();
 
     @messenger.getPageInfo this
+
+    document.addEventListener "keydown", ((ev) =>
+        if ev.keyCode == keyCodeEnter && ev.metaKey
+          ev.preventDefault()
+          ev.stopPropagation()
+          @sendMessage()
+      ), true
 
 
   setPageInfo: (info) ->
@@ -85,6 +97,6 @@ class window.Composer extends Backbone.View
       return
 
     message = new Message(_.defaults({to: _.pluck(to, "value")}, @getFields()))
-    message.save()
+    message.send()
 
 
