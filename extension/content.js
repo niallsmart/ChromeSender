@@ -1,14 +1,17 @@
 
 chrome.extension.onRequest.addListener(
 	function (request, sender, sendResponse) {
-		if (request.method == "getSelectionInfo")
-			handleGetSelectionInfo(request, sender, sendResponse);
+
+		console.log(request)
+
+		if (request.method == "pageInfo")
+			handleGetPageInfo(request, sender, sendResponse);
 		else
 			sendResponse({}); // snub them.
 	}
 );
 
-function handleGetSelectionInfo(request, sender, sendResponse) {
+function handleGetPageInfo(request, sender, sendResponse) {
 
 	var sel = window.getSelection(),
 		text = null,

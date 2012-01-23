@@ -7,14 +7,14 @@ body, table, div, p, input, textarea, a {
   font-size: 12px;
 }
 
-@-webkit-keyframes flash-red {
+@-webkit-keyframes flash {
   0%   { background: rgba(255, 0, 0, 0.9); }
   20%  { background: rgba(255, 0, 0, 0.6); }
   100% { background: rgba(255, 0, 0, 0.0); }
 }
 
 .flash {
-  -webkit-animation: flash-red 300ms;
+  -webkit-animation: flash 300ms;
 }
 
 .item {
@@ -31,6 +31,9 @@ body, table, div, p, input, textarea, a {
   padding-right: 17px;
   margin-left: 0;
   margin-right: 5px;
+  cursor: pointer;
+  -webkit-user-select: none;
+  user-select: none;
 
   .remove, .remove:visited {
     color: inherit;
@@ -46,6 +49,10 @@ body, table, div, p, input, textarea, a {
 
   .remove:hover {
     color: black;
+  }
+
+  .remove:active, .remove:focus {
+    outline: none;
   }
 }
 

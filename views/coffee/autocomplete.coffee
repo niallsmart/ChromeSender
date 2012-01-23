@@ -5,14 +5,19 @@ keyCodeDelete = 8
 
 class AutoComplete extends Backbone.View
 
+  events:
+    "keypress .editor":         "domEditorKeyPress"
+    "keydown  .editor":         "domEditorKeyDown"
+    "keydown  .item":           "domItemKeydown"
+    "click    .item .remove":   "domItemRemoveClick"
+
   initialize: (options) =>
     options ||= {}
     @minEditorWidth = options.minEditorWidth || 250
     @$el = $(@el)
     @editor = $(".editor")
+    @items = []
     @fixEditorWidth()
-
-    @options = options
 
     @editor.autocomplete
       source: options.source
@@ -28,25 +33,28 @@ class AutoComplete extends Backbone.View
       focus: () =>
         false
       select: (event, ui) =>
-        console.log(arguments)
-        @editor.val(ui.item.label)
-        @addItem()
+        @addValue(ui.item.label)
         event.preventDefault()
         false
 
-  addItem: =>
-    item = $("<span tabindex='10' class='item'></span>")
-    item.text(@transformItem(@editor.val()))
-    item.append("<a tabindex='-1' class='remove' href='#'>&times;</a></span>");
-    @editor.before(item);
+  addItem: (item) =>
+    @items.push(item)
+    span = $("<span tabindex='10' class='item'></span>")
+    span.text(item.label)
+    span.attr("title", item.title or item.value)
+    span.append("<a tabindex='-1' class='remove' href='#'>&times;</a></span>");
+    span.data("item", item)
+    @editor.before(span);
     @editor.val('');
     @fixEditorWidth()
 
-  removeItem: (item) =>
-    return unless item.length
-    item.next().focus()
-    item.detach()
+  removeItemAt: (idx) =>
+    span = @$(".item").eq(idx)
+    @items.splice(idx, 1)
+    span.next().focus()
+    span.fadeOut 100, (=> span.detach())
     @fixEditorWidth()
+    return false
 
   fixEditorWidth: =>
 
@@ -61,50 +69,53 @@ class AutoComplete extends Backbone.View
     adjust = @editor.outerWidth(true) - @editor.innerWidth() - @editor.borderWidth()
     @editor.width(width - adjust)
 
-  itemKeydown: (ev) =>
-    if ev.keyCode == keyCodeDelete
-      ev.preventDefault()
-      @removeItem $(ev.target)
-
-  itemRemoveClick: (ev) =>
-    ev.preventDefault()
-    @removeItem $(ev.target).closest(".item")
-
-  acceptItem: (item) ->
+  isValueValid: (value) ->
     true
 
-  transformItem: (item) ->
-    item
+  valueToItem: (item) ->
+    {
+      label: item,
+      value: item
+    }
 
-  editorKeyPress: (ev) =>
-    if ev.keyCode in [keyCodeEnter] and @editor.val().length
-      if @acceptItem(@editor.val())
-        ev.preventDefault()
-        @addItem()
-      else
-        @editor.flash();
+  addValue: (value) ->
+    value ||= @editor.val()
+    if value.trim().length == 0
+      true
+    else if !@isValueValid(value)
+      @editor.flash();
+      false
+    else
+      @addItem @valueToItem(value)
+      true
 
+  domItemKeydown: (ev) =>
+    if ev.keyCode == keyCodeDelete
+      ev.preventDefault()
+      @removeItemAt $(ev.target).index()
 
-  editorKeyDown: (ev) =>
+  domItemRemoveClick: (ev) =>
+    ev.preventDefault()
+    @removeItemAt $(ev.target).closest(".item").index()
+
+  domEditorKeyPress: (ev) =>
+    if ev.keyCode in [keyCodeEnter, keyCodeComma]
+      ev.preventDefault()
+      @addValue()
+      false
+
+  domEditorKeyDown: (ev) =>
     if ev.keyCode == keyCodeDelete && !@editor.val()
       ev.preventDefault();
-      @removeItem @editor.prev(".item")
-
-
-  events:
-    "keypress .editor":         "editorKeyPress"
-    "keydown  .editor":         "editorKeyDown"
-    "keydown  .item":           "itemKeydown"
-    "click    .item .remove":   "itemRemoveClick"
-
+      @removeItemAt @editor.prev(".item").index()
 
 
 class EMailAutoComplete extends AutoComplete
 
   parseEmail: (str) =>
     str = str.replace(/(^\s+)|(\s+$)/g, "");
-    nonAtDot = "[^@\"']+"
-    email = "#{nonAtDot}\\@#{nonAtDot}\\.#{nonAtDot}"
+    nonAtDotWS = "[^@\"\\s']+"
+    email = "#{nonAtDotWS}\\@#{nonAtDotWS}\\.#{nonAtDotWS}"
     name = "[\"']([^\"']+)[\"']"
     regex = new RegExp("^(#{email}|#{name}\\s+<(#{email})>)$")
     ret = regex.exec(str)
@@ -116,12 +127,15 @@ class EMailAutoComplete extends AutoComplete
     else
       null
 
-  acceptItem: (val) =>
+  isValueValid: (val) =>
     @parseEmail(val)
 
-  transformItem: (val) =>
+  valueToItem: (val) =>
     address = @parseEmail(val)
-    address.name || address.email
+    {
+      label: address.name || address.email
+      value: val
+    }
 
 
 root = exports ? this

@@ -8,6 +8,7 @@
  * Change focus ring color selection
  * Test behaviour on first extension load (does content.js get loaded?)
  * Fix Range -> String logic (ignore <style>/<script>; insert \r\n around blocks)
+ * Emulate styling of Chrome URL bar on editor controls?
 
 ## Done
 
