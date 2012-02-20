@@ -1,7 +1,7 @@
 require 'rake/minify'
 
-def sass2css(from, to)
-  system "sass #{from} #{to}"
+def less2css(from, to)
+  system "lessc #{from} #{to}"
 end
 
 def cp_filter(from, to)
@@ -22,9 +22,9 @@ namespace :extension do
     FileUtils.rm_f('extension/popup.html')
   end
 
-  task :sass do
-    FileList['views/sass/*'].each { |sass|
-      sass2css sass, "extension/css/#{sass.pathmap("%n")}.css"
+  task :less do
+    FileList['views/css/*.less'].each { |less|
+      less2css less, "extension/css/#{less.pathmap("%n")}.css"
     }
   end
 
@@ -47,7 +47,7 @@ namespace :extension do
     FileUtils.cp "public/popup.html", "extension/popup.html"
   end
 
-  task :package => [:dirs, :sass, :source, :content] do
+  task :package => [:dirs, :less, :source, :content] do
     puts "extension packaged OK."
   end
 
