@@ -29,7 +29,7 @@ namespace :extension do
   end
 
   Rake::Minify.new(:source) do
-    fl = FileList['views/coffee/*.coffee']
+    fl = FileList['views/js/*.coffee']
     fl.exclude("**/test-*")
     fl.each { |file|
       add("extension/js/#{file.pathmap("%n")}.js", file, :minify => false)
