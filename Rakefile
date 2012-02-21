@@ -1,5 +1,8 @@
 require 'rake/minify'
 
+ENV['PATH'] = "/usr/local/bin:#{ENV['PATH']}"
+ENV['NODE_PATH'] = "/usr/local/lib/node_modules:/usr/local/lib/node:"
+
 def less2css(from, to)
   system "lessc #{from} #{to}"
 end
@@ -53,5 +56,9 @@ namespace :extension do
 
 end
 
+
+task :test do
+  system 'sh -c "nodeunit test/*"'
+end
 
 
